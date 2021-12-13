@@ -9,9 +9,11 @@ def mysqlconnect():
     )
 
     cur = conn.cursor()
-    cur.execute("select * from country;")
-    output = cur.fetchall()
-    print(output)
+    while (True):
+        sqlquery = input ("Input sql query: ")
+        cur.execute(sqlquery)
+        output = cur.fetchall()
+        print(output)
 
 if __name__ == "__main__" :
     mysqlconnect()
