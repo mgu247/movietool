@@ -1,4 +1,7 @@
+#searchFunctions are used to search specific movies/actors/etc
+from tkinter.constants import S
 import pymysql.cursors
+from searchFunctions import searchActors
 import PySimpleGUI as sg
 import csv
 
@@ -21,6 +24,12 @@ def dbprog():
 
     while (True):
         event, values = window.read()
+
+        #Parse the input of the values we got from the search bar (window.read) to a function that turns them into MySql queries
+        #so "Movie Name" becomes a "Select title from movie where title = Movie_Name"
+        values = searchActors(values)
+
+        print(values)
 
         cur.execute(values[0])
         output = cur.fetchall()
