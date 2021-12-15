@@ -27,7 +27,7 @@ def dbprog():
 
         #Parse the input of the values we got from the search bar (window.read) to a function that turns them into MySql queries
         #so "Movie Name" becomes a "Select title from movie where title = Movie_Name"
-        values = searchActors(values)
+        values = searchActors(values, cur)
 
         print(values)
 
