@@ -2,7 +2,7 @@ from tkinter.constants import S
 import pymysql.cursors
 from searchFunctions import searchFunction
 from connection import getConnection
-from userFunctions import getUserTable
+from userFunctions import getUserTable, addMovie
 from login import loginscreen
 import PySimpleGUI as sg
 import csv
@@ -14,7 +14,7 @@ def dbprog(cur):
     open("output.csv", "w").close()
     sg.theme('Default1')
     layout = [  [sg.Text('Search Movies: '), sg.InputText()],
-                [sg.Button('Search')], [sg.Button('My Movie List')] ]
+                [sg.Button('Search')], [sg.Button('My Movie List')], [sg.Button('Add to list')] ]
     window = sg.Window('Movie List', layout, size=(1800, 720), element_justification='c')
 
     while (True):
@@ -29,13 +29,28 @@ def dbprog(cur):
                 output = cur.fetchall()
             except pymysql.err.OperationalError as e:
                 output = "Empty"
-        elif event == "Movie List":
+        elif event == "My Movie List":
             values = getUserTable("usertable{}".format(user_id), cur)
             try:
                 cur.execute(values)
                 output = cur.fetchall()
             except pymysql.err.OperationalError as e:
                 output = "Empty"
+        elif event == "Add to list":
+            layout = [  [sg.Text('Title'), sg.InputText()],
+                        [sg.Text('Status'), sg.InputText()],
+                        [sg.Text('My Rating out of 10'), sg.InputText()],
+                        [sg.Button('Add')] ]
+            window.close()
+            window = sg.Window('Movie List', layout, size=(1800, 720), element_justification='c')
+            event, values = window.read()
+            if event == "Add":
+                addMovie("usertable{}".format(user_id), values[0], values[1], values[2], cur)
+                window.close()
+                layout = [  [sg.Text('Search Movies: '), sg.InputText()],
+                            [sg.Button('Search')], [sg.Button('My Movie List')], [sg.Button('Add to list')] ]
+                window = sg.Window('Movie List', layout, size=(1800, 720), element_justification='c')
+            continue
         if output != "Empty":
             with open("output.csv", "w", encoding='utf-8') as outfile:
                 csv.register_dialect("custom", delimiter=",", skipinitialspace=True)
