@@ -1,7 +1,6 @@
 from tkinter.constants import S
 import pymysql.cursors
 from searchFunctions import searchActors
-from userFunctions import addUser
 from connection import getConnection
 from login import loginscreen
 import PySimpleGUI as sg
