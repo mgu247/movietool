@@ -19,18 +19,23 @@ def dbprog(cur):
 
     while (True):
         event, values = window.read()
-
+        output = "Empty"
         if event == "Search":
             #Parse the input of the values we got from the search bar (window.read) to a function that turns them into MySql queries
             #so "Movie Name" becomes a "Select title from movie where title = Movie_Name"
-            values = searchFunction(values, cur)
+            values = searchActors(values, cur)
+            try:
+                cur.execute(values[0])
+                output = cur.fetchall()
+            except pymysql.err.OperationalError as e:
+                output = "Empty"
         elif event == "Movie List":
             values = getUserTable("usertable{}".format(user_id), cur)
-        try:
-            cur.execute(values[0])
-            output = cur.fetchall()
-        except pymysql.err.OperationalError as e:
-            output = "Empty"
+            try:
+                cur.execute(values)
+                output = cur.fetchall()
+            except pymysql.err.OperationalError as e:
+                output = "Empty"
         if output != "Empty":
             with open("output.csv", "w", encoding='utf-8') as outfile:
                 csv.register_dialect("custom", delimiter=",", skipinitialspace=True)
