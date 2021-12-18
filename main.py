@@ -1,20 +1,13 @@
-#searchFunctions are used to search specific movies/actors/etc
 from tkinter.constants import S
 import pymysql.cursors
 from searchFunctions import searchActors
+from userFunctions import addUser
+from connection import getConnection
+from login import loginscreen
 import PySimpleGUI as sg
 import csv
 
-def dbprog():
-    # server connect
-    conn = pymysql.connect(
-        host='35.232.219.225',
-        user='root',
-        password='password123',
-        db='movies',
-    )
-    cur = conn.cursor()
-
+def dbprog(cur):
     # gui startup
     open("output.csv", "w").close()
     sg.theme('Default1')
@@ -58,4 +51,7 @@ def dbprog():
         window = sg.Window('Movie List', layout, size=(1800, 720), element_justification='c')
 
 if __name__ == "__main__" :
-    dbprog()
+    cur = getConnection()
+    tf = loginscreen(cur)
+    if (tf):
+        dbprog(cur)

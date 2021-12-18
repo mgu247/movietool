@@ -1,3 +1,4 @@
+#searchFunctions are used to search specific movies/actors/etc
 import pymysql.cursors
 
 def searchActors(values, cur):
@@ -9,18 +10,18 @@ def searchActors(values, cur):
     row = cur.fetchone()
     if (row != None):
         values[0] = "CALL SearchActors('" + values[0] + "');"
-    
-    #How to I created the stored procedure in gcp: 
+
+    #How to I created the stored procedure in gcp:
     #Use this link for reference its super good https://dev.mysql.com/doc/refman/8.0/en/create-procedure.html
     #My stored procedure for SearchActors:
     #    mysql> delimiter //
-    #    mysql> CREATE PROCEDURE SearchActors (IN Name varchar(40)) 
-    #    BEGIN 
-    #        select person_name, title, character_name, overview, runtime, popularity from movie as c join 
-    #        (select person_name, movie_id, character_name from movie_cast as a join person as b on a.person_id = b.person_id where person_name = Name) 
-    #        as d on c.movie_id = d.movie_id; 
+    #    mysql> CREATE PROCEDURE SearchActors (IN Name varchar(40))
+    #    BEGIN
+    #        select person_name, title, character_name, overview, runtime, popularity from movie as c join
+    #        (select person_name, movie_id, character_name from movie_cast as a join person as b on a.person_id = b.person_id where person_name = Name)
+    #        as d on c.movie_id = d.movie_id;
     #    END//
-    #    mysql> delimiter ;  
+    #    mysql> delimiter ;
 
     #Command use to check if your stored procedure was created:
     #    mysql> select routine_name, routine_type,definer,created,security_type,SQL_Data_Access from information_schema.routines where routine_type='PROCEDURE' and routine_schema='movies';
