@@ -1,6 +1,6 @@
 from tkinter.constants import S
 import pymysql.cursors
-from searchFunctions import searchActors
+from searchFunctions import searchFunction
 from connection import getConnection
 from userFunctions import getUserTable
 from login import loginscreen
@@ -23,7 +23,7 @@ def dbprog(cur):
         if event == "Search":
             #Parse the input of the values we got from the search bar (window.read) to a function that turns them into MySql queries
             #so "Movie Name" becomes a "Select title from movie where title = Movie_Name"
-            values = searchActors(values, cur)
+            values = searchFunction(values, cur)
         elif event == "Movie List":
             values = getUserTable("usertable{}".format(user_id), cur)
         try:
