@@ -11,3 +11,9 @@ def addUser(uname, pword, cur):
 
 def createUserTable(name, cur):
     cur.execute("create table if not exists {}(title varchar(1000), add_date date, status varchar(50), rating_out_of_10 int(10));".format(name))
+
+def getUserTable(name, cur):
+    return "select * from {}".format(name)
+
+#def addMovie(name, title, cur):
+#    cur.execute"".format())

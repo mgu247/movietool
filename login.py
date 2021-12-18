@@ -18,11 +18,11 @@ def loginscreen(cur):
             break
         else:
             if event == "Login":
-                cur.execute("select password from users where username = '{}';".format(values['-usernm-']))
+                cur.execute("select password, user_id from users where username = '{}';".format(values['-usernm-']))
                 output = cur.fetchall()
                 if values['-psswrd-'] == output[0][0]:
                     window.close()
-                    return True
+                    return True, output[0][1]
                     break
                 elif values['-psswrd-'] != output[0][0]:
                     sg.popup("Incorrect username and/or password. Try again")
